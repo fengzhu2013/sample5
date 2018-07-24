@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -54,8 +55,10 @@ class UsersController extends Controller
     	$user = User::create([
     		'name'	=> $request->name,
     		'email'	=> $request->email,
-    		'password' => bcrypt($request->email),
+    		'password' => bcrypt($request->password),
     	]);
+
+        Auth::login($user);
     	session()->flash('success','signup successful');
     	return redirect()->route('users.show',[$user]);
     }
